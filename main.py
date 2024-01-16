@@ -33,10 +33,82 @@ def dealCards():
             player.hand.append(fullDeck.pop(0))
         dealer.hand.append(fullDeck.pop(0))
         
+def printCards(player, dealer):
+    print('Dealer: ')
+    for card in dealer.hand:
+        print(card)
+    print('Player: ')
+    for card in player.hand:
+        print(card)
+        
+def checkPlayerScore(player):
+    score = 0
+    for card in player.hand:
+        if card[0] == 'Ace':
+            score += 11
+        elif card[0] in ['Jack', 'Queen', 'King']:
+            score += 10
+        else:
+            score += int(card[0])
+    return score
+
+def checkDealerScore(dealer):
+    score = 0
+    for card in dealer.hand:
+        if card[0] == 'Ace':
+            score += 11
+        elif card[0] in ['Jack', 'Queen', 'King']:
+            score += 10
+        else:
+            score += int(card[0])
+    return score
+
+def checkWinner(player, dealer):
+    playerScore = checkPlayerScore(player)
+    dealerScore = checkDealerScore(dealer)
+    if playerScore > dealerScore:
+        return player
+    elif dealerScore > playerScore:
+        return dealer
+    elif playerScore == 42:
+        return player
+    elif dealerScore == 42:
+        return dealer
+
+def hitPlayer(player):
+    fullDeck = createDeck(2)
+    player.hand.append(fullDeck.pop(0))
+    return player
+
+def hitDealer(dealer):
+    fullDeck = createDeck(2)
+    dealer.hand.append(fullDeck.pop(0))
+    return dealer
+
+def standPlayer(player):
+    return player
+
+def standDealer(dealer):
+    return dealer
+
+def checkBust(player):
+    score = checkPlayerScore(player)
+    if score > 42:
+        return True
+    else:
+        return False
+
+        
         
 def main():
     fullDeck = createDeck(1)
     shuffleDeck(fullDeck)
-    print(fullDeck);
+    
+    player = Player('Player')
+    dealer = Dealer('Dealer')
+    
+    dealCards()
+    printCards(player, dealer)
+    
     
 main()
